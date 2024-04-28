@@ -12,3 +12,7 @@ os.makedirs(logpath,exist_ok=True)
 
 # now put the file into path
 Log_filepath=os.path.join(logpath,LOG_FILE)
+
+logging.basicConfig(level=logging.INFO,
+                    filename=Log_filepath,
+                    format="[%(asctime)s]%(lineno)d%(name)s-%(levelname)s-%(message)s")
