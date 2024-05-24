@@ -43,6 +43,13 @@ class DataIngestion:
             train_data.to_csv(self.ingestion_config.train_data_path,index=False)
             test_data.to_csv(self.ingestion_config.test_data_path,index=False)
             logging.info("i stored the train data and test data in the form of csv in artifacts folder")
+
+
+            return (
+
+                self.ingestion_config.train_data_path,
+                self.ingestion_config.test_data_path
+            )
         except Exception as e:
             print("error occurs during the data ingestion phase")
             raise CustomException(e,sys)
