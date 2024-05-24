@@ -87,12 +87,15 @@ class DataTransformation:
             targeted_feature_train_df=train_df[targeted_column]
 
             input_feature_test_df=test_df.drop(drop_columns,axis=1)
-            targed_feature_test_df=test_df['price']
+            targeted_feature_test_df=test_df['price']
 
             # now fit and transform the train and test data
             input_feature_train_array=preprocessor_obj.fit_transform(input_feature_train_df)
             # for validate the model
-            input_feature_test_array =preprocessor_obj.transform(input_feature_test_df)
+            input_feature_test_array=preprocessor_obj.transform(input_feature_test_df)
+            train_array=np.c_(input_feature_train_array,np.array(targeted_feature_train_df))
+            test_array=np.c_(input_feature_test_array,np.array(targeted_feature_test_df))
+
 
             logging.info("appling preprocessing object on train and test input data")
 
@@ -100,6 +103,12 @@ class DataTransformation:
             save_object(
                 file_path=self.data_transformation_object.preprocessor_object_file_path,
                 obj=preprocessor_obj
+            )
+
+            logging.info("processing pickle file saved")
+            return (
+                train_array,
+                test_array
             )
 
 
