@@ -30,7 +30,7 @@ class DataIngestion:
             logging.info("i inject the data into data variable")
 
             # now i create a path for making directory for raw data and test and train data output (artifacts)
-            os.makedirs(os.path.join(self.ingestion_config.raw_data_path),exist_ok=True)
+            os.makedirs(os.path.join(os.path.dirname(self.ingestion_config.raw_data_path)),exist_ok=True)
             data.to_csv(self.ingestion_config.raw_data_path,index=False)
             logging.info("create a raw data file and store the raw data as artifacts")
             # we did not use artifacts folder name in os.path.join because self.ingestion_config.raw_data_path aleardy used it

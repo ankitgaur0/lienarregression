@@ -4,14 +4,15 @@ import os,sys
 import pickle
 from src.diamondpriceprediction.Logger import logging
 from src.diamondpriceprediction.Exceptionhandle import CustomException
+from sklearn.linear_model import LinearRegression,Ridge,Lasso,ElasticNet
 
 from sklearn.metrics import mean_absolute_error , mean_squared_error,r2_score
 
 def save_object(file_path,obj):
     try:
-        file_path=os.path.dirname(file_path)
+        dir_path=os.path.dirname(file_path)
 
-        os.makedirs(file_path,exist_ok=True)
+        os.makedirs(dir_path,exist_ok=True)
 
         with open(file_path,"wb") as file_obj:
             pickle.dump(obj,file_obj)
@@ -23,8 +24,9 @@ def save_object(file_path,obj):
 def evaluate_model(X_train,y_train,X_test,y_test,models):
     try:
         report={}
-        for i in range(len(models)):
-            model=list(models.values())[i]
+
+        for model_name,model in models.items():
+            #model=list(models.values())[i]
             #here fit in the model with the help of object
             model.fit(X_train,y_train)
             #now predict the output by giving X_test data
@@ -32,10 +34,12 @@ def evaluate_model(X_train,y_train,X_test,y_test,models):
 
             #now get accuracy by r2_score
             test_model_score=r2_score(y_test,y_predict)
+            #print(list(models.keys())[i],"score is:",test_model_score)
 
-            report[list(models.key())[i]]=test_model_score
+            report[model_name]=test_model_score
+            
 
-            return report
+        return report
 
 
     except Exception as e:

@@ -34,13 +34,14 @@ class Modeltrainer:
 
             models={
                 "LinearRegression":LinearRegression(),
-                "Ridge":Ridge(),
-                "Lasso":Lasso(),
-                "ElasticNet":ElasticNet()
+                "Ridge": Ridge(),
+                "Lasso": Lasso(),
+                "ElasticNet": ElasticNet()
             }
-          
+            # evaluate_model method is defined the utils module
             model_report:dict=evaluate_model(X_train,y_train,X_test,y_test,models)
             print(model_report)
+
             print("\n","="*40,"\n")
             
             logging.info(f"the model_report is {model_report}")
@@ -58,7 +59,7 @@ class Modeltrainer:
 
             save_object(
                 file_path=self.model_trainer_config.trained_model_file_path,
-                objects=best_model
+                obj=best_model
             )
 
 
