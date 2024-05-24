@@ -15,7 +15,7 @@ from sklearn.preprocessing import OrdinalEncoder,StandardScaler
 
 # for utils
 from src.diamondpriceprediction.utils.utils import save_object
-#@dataclass it is treated as destructor in python
+#@dataclass it is treated as decorator in python
 @dataclass
 class DataTransformationConfig:
     preprocessor_object_file_path=os.path.join("artifacts",'preprocessor.pkl')

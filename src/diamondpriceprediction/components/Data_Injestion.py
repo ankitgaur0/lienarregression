@@ -11,6 +11,7 @@ import os,sys
 # there is two more term called as artifacts and configure .
 # artifacts is the collections of outputs of different-different components(data_ingestion,data_preprocessing,model training).
 #confi(configure) is the configuration regarding about the components.
+@dataclass
 class DataIngestionConfig:
     raw_data_path:str=os.path.join('artifacts','raw.csv')
     train_data_path:str=os.path.join('artifacts','train.csv')
