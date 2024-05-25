@@ -1,74 +1,40 @@
-import os,sys
-import pandas as pd
-import numpy as np
-from src.diamondpriceprediction.Exceptionhandle import CustomException
-from src.diamondpriceprediction.Logger import logging
-from src.diamondpriceprediction.utils.utils import load_object
+from src.diamondpriceprediction.Pipeline.prediction_pipeline import Customdata,PredictPipeline
+
+from flask import Flask,request,render_template,jsonify
+
+app=Flask("__name__")
+
+@app.route("/")
+#here i will accosiated it with a method name(home_page)
+def home_page():
+    return render_template("index.html")
 
 
-class PredictPipeline:
-    def __init__(self):
-        pass
+@app.route("/predict",methods=["GET","POST"])
+def predict_datapoints():
+    if request.method == "GET":
+        return render_template("form.html")
+    else:
+        DATA=Customdata(
+            carat=request.form.get('carat'),
+            depth=request.form.get('depth'),
+            table=request.form.get('table'),
+            x=request.form.get('x'),
+            y=request.form.get('y'),
+            z=request.form.get('z'),
+            cut=request.form.get('cut'),
+            color=request.form.get('color'),
+            clarity=request.form.get('clarity')
+        )
+        df=DATA.get_data_dataframe()
 
-    def predict(self,features):
-        try:
-            preprocessor_path=os.path.join("atifacts","preprocessor.pkl")
-            modeltrainer_path=os.path.join("atifacts","model.pkl")
+        pred_obj=PredictPipeline()
+        pred=pred_obj.predict(df)
 
-            preprocessor_obj=load_object(preprocessor_path)
-            modeltrainer_obj=load_object(modeltrainer_path)
+        result=round(pred[0],2)
 
-            scaled_data=preprocessor_path.transform(features)
-
-            pred=modeltrainer_obj.predict(scaled_data)
-            return pred
-
-        except Exception as e:
-            raise CustomException(e,sys)
+        return render_template("result.html",final_result=result)
         
 
-class Customdata:
-    def __init__(self,
-                 carat:float,
-                 cut:str,
-                 color:str,
-                 clarity:str,
-                 depth:float,
-                 table:float,
-                 x:float,
-                 y:float,
-                 z:float):
-        self.carat=carat
-        self.cut=cut
-        self.color=color
-        self.clarity=clarity
-        self.depth=depth
-        self.table=table
-        self.x=x
-        self.y=y
-        self.z=z
-
-    def get_data_dataframe(self):
-        try:
-            custom_data_input_dirt={
-                "carat":[self.carat],
-                "cut":[self.cut],
-                "color":[self.color],
-                "clarity":[self.clarity],
-                "depth":[self.depth],
-                "table":[self.table],
-                "x":[self.x],
-                "y":[self.y],
-                "z":[self.z]
-            }
-
-            custom_dataframe=pd.DataFrame(custom_data_input_dirt)
-            logging.info("custom data dataframe is created")
-
-            return custom_dataframe
-
-
-        except Exception as e:
-            raise CustomException(e,sys)
-    
-
+if __name__=="__main__":
+    app.run(debug=True)

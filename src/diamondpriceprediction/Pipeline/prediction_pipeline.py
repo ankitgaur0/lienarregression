@@ -12,13 +12,13 @@ class PredictPipeline:
 
     def predict(self,features):
         try:
-            preprocessor_path=os.path.join("atifacts","preprocessor.pkl")
-            modeltrainer_path=os.path.join("atifacts","model.pkl")
+            preprocessor_path=os.path.join("artifacts","preprocessor.pkl")
+            modeltrainer_path=os.path.join("artifacts","model.pkl")
 
             preprocessor_obj=load_object(preprocessor_path)
             modeltrainer_obj=load_object(modeltrainer_path)
 
-            scaled_data=preprocessor_path.transform(features)
+            scaled_data=preprocessor_obj.transform(features)
 
             pred=modeltrainer_obj.predict(scaled_data)
             return pred
@@ -30,14 +30,14 @@ class PredictPipeline:
 class Customdata:
     def __init__(self,
                  carat:float,
-                 cut:str,
-                 color:str,
-                 clarity:str,
                  depth:float,
                  table:float,
                  x:float,
                  y:float,
-                 z:float):
+                 z:float,
+                 cut:str,
+                 color:str,
+                 clarity:str):
         self.carat=carat
         self.cut=cut
         self.color=color
@@ -52,14 +52,14 @@ class Customdata:
         try:
             custom_data_input_dirt={
                 "carat":[self.carat],
-                "cut":[self.cut],
-                "color":[self.color],
-                "clarity":[self.clarity],
                 "depth":[self.depth],
                 "table":[self.table],
                 "x":[self.x],
                 "y":[self.y],
-                "z":[self.z]
+                "z":[self.z],
+                "cut":[self.cut],
+                "color":[self.color],
+                "clarity":[self.clarity],
             }
 
             custom_dataframe=pd.DataFrame(custom_data_input_dirt)
