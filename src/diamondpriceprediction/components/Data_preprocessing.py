@@ -34,9 +34,9 @@ class DataTransformation:
             categorical_columns=['cut', 'color', 'clarity']
 
             # now the unique entity of categorical_columns for performing encoding
-            cut_category=['Ideal', 'Premium', 'Good', 'Very Good', 'Fair']
-            color_category=['E', 'I', 'J', 'H', 'F', 'G', 'D']
-            clarity_category=['SI2', 'SI1', 'VS1', 'VS2', 'VVS2', 'VVS1', 'I1', 'IF']
+            cut_category=['Fair', 'Good', 'Very Good','Premium', 'Ideal']
+            color_category=['D','E', 'F', 'G','H','I','J' ]
+            clarity_category=['I1','SI2', 'SI1', 'VS2', 'VS1', 'VVS2', 'VVS1', 'IF']
 
             logging.info("Pipeline initiated")
             #now we have to make the piple lines for performing process on numberical and categorical columns
