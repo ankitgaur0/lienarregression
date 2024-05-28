@@ -1,4 +1,4 @@
-FROM  python:3.11.9-slim-buster
+FROM  python:3.9-slim-buster
 WORKDIR /service
 
 # the last . is used to use workdirectory
